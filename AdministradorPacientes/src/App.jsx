@@ -5,6 +5,10 @@ import Formulario from "./components/Formulario"
 function App() {
   const [pacientes, setPacientes] = useState([])
   const [paciente, setPaciente] = useState({})
+  const eliminarPaciente = (id)=>{
+    const arrayNuevo=pacientes.filter((pacienteFilter)=> id!==pacienteFilter.id)
+    setPacientes(arrayNuevo)
+  }
   return (
     <div className="container mx-auto mt-20">
       <Header 
@@ -15,10 +19,12 @@ function App() {
           pacientes={pacientes}
           setPacientes={setPacientes}
           paciente={paciente}
+          setPaciente = {setPaciente}
         />
         <ListadoPacientes
           pacientes={pacientes}
           setPaciente={setPaciente}
+          eliminarPaciente = {eliminarPaciente}
         />
       </div>
     </div>

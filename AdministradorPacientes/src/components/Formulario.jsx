@@ -2,16 +2,21 @@ import { useState, useEffect } from "react"
 import Error from "./Error"
 import generarId from "../helpers/generarId"
 
-function Formulario({pacientes,setPacientes,paciente}) {
+function Formulario({pacientes,setPacientes,paciente, setPaciente}) {
   const [nombre, setNombre] = useState('')
   const [email, setEmail] = useState('')
   const [fecha, setFecha] = useState('')
   const [sintomas, setSintomas] = useState('')
+  
   const [error, setError] = useState(false)
 
   useEffect(()=>{
-
-    console.log(paciente);
+    if(Object.keys(paciente) >0 ){
+      setNombre(paciente.nombre)
+      setEmail(paciente.email)
+      setFecha(paciente.fecha)
+      setSintomas(paciente.sintomas)
+    }
   },[paciente])
 
   const handleSubmit = ( e ) => {
@@ -28,9 +33,19 @@ function Formulario({pacientes,setPacientes,paciente}) {
           email, 
           fecha,
           sintomas,
-          id: generarId()
-      }
-      setPacientes([...pacientes, objetoPaciente])
+        }
+        if(paciente.id){
+          // Editando el registro
+          objetoPaciente.id = paciente.id;
+          const pacientesActualizados = pacientes.map((pacienteArray)=> (paciente.id ===  pacienteArray.id ? objetoPaciente : pacienteArray)  )
+          setPacientes(pacientesActualizados)
+          setPaciente({})
+        }else{
+          // Nuevo registro 
+          objetoPaciente.id = generarId()
+          setPacientes([...pacientes, objetoPaciente])
+        }
+
       // Reiniciar el formulario
       setNombre('')
       setEmail('')
@@ -115,7 +130,8 @@ function Formulario({pacientes,setPacientes,paciente}) {
           </div>
         <input
           type="submit"
-          className='bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors' value='Agregar Paciente'
+          className='bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors' 
+          value={paciente.id ? 'Guardar cambios' : 'Agregar Paciente'}
        />
 
 

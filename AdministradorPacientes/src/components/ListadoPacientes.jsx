@@ -1,7 +1,7 @@
 import React from 'react'
 import Paciente from './Paciente'
 
-const ListadoPacientes = ({pacientes, setPaciente} ) => {
+const ListadoPacientes = ({pacientes, setPaciente, eliminarPaciente} ) => {
 
   return (
     <div className='md:w-1/2 lg:w-3/5 md:h-screen overflow-y-scroll'>
@@ -18,6 +18,7 @@ const ListadoPacientes = ({pacientes, setPaciente} ) => {
                           paciente= {paciente}
                           key= {paciente.id}
                           setPaciente = {setPaciente}
+                          eliminarPaciente = {eliminarPaciente}
                           />
                       
                                   )

@@ -4,6 +4,7 @@ import Header from "./components/Header"
 import ListadoPacientes from "./components/ListadoPacientes"
 function App() {
   const [pacientes, setPacientes] = useState(JSON.parse(localStorage.getItem('pacientes')) ?? [])
+  // paciente y set paciente son para editar / borrar
   const [paciente, setPaciente] = useState({})
 
   useEffect(() => {

@@ -1,28 +1,36 @@
 import { useState, useEffect } from "react"
+import useSelectObraSocial from "./hooks/useSelectObraSocial"
 import Error from "./Error"
+import { obrasSociales } from "../data/obrasSociales"
 import generarId from "../helpers/generarId"
+
 
 function Formulario({pacientes,setPacientes,paciente, setPaciente}) {
   const [nombre, setNombre] = useState('')
   const [email, setEmail] = useState('')
   const [fecha, setFecha] = useState('')
   const [sintomas, setSintomas] = useState('')
-  
+  // const [mutual, setMutual] = useState('')
+  const [obraSocial, SelectObraSocial,setObraSocial] = useSelectObraSocial('Elige tu obra social', obrasSociales)
+
   const [error, setError] = useState(false)
 
   useEffect(()=>{
-    if(Object.keys(paciente) >0 ){
+    
+    if(Object.keys(paciente).length >0 ){
+      console.log(paciente)
       setNombre(paciente.nombre)
       setEmail(paciente.email)
       setFecha(paciente.fecha)
       setSintomas(paciente.sintomas)
+      setObraSocial(paciente.obraSocial)
     }
   },[paciente])
 
   const handleSubmit = ( e ) => {
      e.preventDefault()
     //  Validacion del Formulario
-    if([nombre, email, fecha, sintomas].includes('') ){
+    if([nombre, email, fecha, sintomas, obraSocial].includes('') ){
       setError(true)
       return
     }
@@ -33,6 +41,7 @@ function Formulario({pacientes,setPacientes,paciente, setPaciente}) {
           email, 
           fecha,
           sintomas,
+          obraSocial
         }
         if(paciente.id){
           // Editando el registro
@@ -52,6 +61,8 @@ function Formulario({pacientes,setPacientes,paciente, setPaciente}) {
       setFecha('')
       setSintomas('')
       setError('')
+      setObraSocial('')
+      // useSelectObraSocial('Elige tu obra social', obrasSociales)
 
     }
   return (
@@ -78,19 +89,11 @@ function Formulario({pacientes,setPacientes,paciente, setPaciente}) {
                  value={nombre} 
                  onChange={(e)=>setNombre(e.target.value)} />
           </div>
+          {/* SELECTOR OBRA SOCIAL */}
+          <div className='mb-5'>
+              <SelectObraSocial />
 
-          {/* <div className='mb-5'>
-              <label htmlFor='obra' className='block text-gray-700 uppercase font-bold'>
-                Obra Social
-              </label>
-              <select id='obra' className='w-full p-2 mt-2 placeholder-gray-400 border-2 rounded-md' >
-                  <option value="Sancor">Sancor</option>
-                  <option value="Ospat">Ospat</option>
-                  <option value="Osep">Osep</option>
-                  <option value="Osprera">Osprera</option>
-                  <option selected value="Otra" >Otra</option>
-              </select>
-          </div> */}
+          </div>
           <div className='mb-5'>
               <label htmlFor='nombre' className='block text-gray-700 uppercase font-bold'>
                 Email Paciente
